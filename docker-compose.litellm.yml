@@ -1,0 +1,22 @@
+# 本地自托管 LiteLLM AI Gateway，统一走 OpenAI 兼容 /v1 接口
+# 仓库: https://github.com/BerriAI/litellm
+#
+# 启动:
+#   docker compose -f docker-compose.litellm.yml up
+#
+# 默认监听 http://localhost:4000 ，管理 UI 一般为 http://localhost:4000/ui
+
+services:
+  litellm:
+    image: ghcr.io/berriai/litellm:main-stable
+    container_name: litellm-proxy
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./litellm/config.yaml:/app/config.yaml:ro
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      LITELLM_MASTER_KEY: ${LITELLM_MASTER_KEY:-sk-litellm-local-dev}
+    command:
+      - "--config=/app/config.yaml"
+      - "--port=4000"
