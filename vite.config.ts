@@ -6,6 +6,9 @@ import { defineConfig, loadEnv } from 'vite';
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
   return {
+    // 部署到 GitHub Pages 项目站点 https://ygwoxiao-beep.github.io/Recorded/
+    // 本地 dev 与 preview 仍走 '/'，所以仅在 build 时使用子路径
+    base: mode === 'production' ? '/Recorded/' : '/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
